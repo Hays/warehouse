@@ -1,0 +1,28 @@
+{
+  "name": "warehouse",
+  "version": "0.0.1",
+  "description": "simple warehouse system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hays/warehouse.git"
+  },
+  "keywords": [
+    "warehouse"
+  ],
+  "author": "Hays",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hays/warehouse/issues"
+  },
+  "homepage": "https://github.com/Hays/warehouse#readme",
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
+    "koa-compose": "^4.0.0",
+    "koa-router": "^7.4.0"
+  }
+}
