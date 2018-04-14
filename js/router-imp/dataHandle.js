@@ -1,6 +1,5 @@
 
 function addItem(ctx, next) {
-    console.log("test by Hays...")
 }
 
 function listAllItems(ctx, next) {
@@ -16,9 +15,3 @@ export default {
     listAllItems,
     removeItem
 }
-
-// module.exports = {
-//     addItem,
-//     listAllItems,
-//     removeItem
-// };

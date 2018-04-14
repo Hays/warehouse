@@ -6,7 +6,7 @@
   "scripts": {
     "cleanBuild": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
     "build": "babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
-    "release":"babel ./ --out-dir release/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",
+    "release": "babel ./ --out-dir release/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",
     "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +32,8 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.7.0",
     "rimraf": "^2.6.2"
   }
 }

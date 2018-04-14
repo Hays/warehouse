@@ -1,10 +1,7 @@
-const fs = require('fs');
+import fs from 'fs'
 
-function homeHandle(ctx, next) {
-    ctx.response.type = 'html';
-    ctx.response.body = fs.createReadStream('./html/index.html');
+export function homeHandle(ctx, next) {
+    ctx.response.type = 'html'
+    ctx.response.body = fs.createReadStream('./html/index.html')
 }
 
-module.exports = {
-    homeHandle
-};

@@ -1,12 +1,8 @@
-var html = require('./htmlHandler');
-// var data = require('./dataHandle');
+import { homeHandle } from './htmlHandler'
 import dataHandle from './dataHandle'
 
 const { addItem } = dataHandle
 
-function initRouterHandler(router) {
-    router.get('/', html.homeHandle);
-    addItem();
+export default function initRouterHandler(router) {
+    router.get('/', homeHandle)
 }
-
-module.exports = initRouterHandler;
