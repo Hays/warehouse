@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import Router from 'koa-router'
-import initRouterHandler from './js/router-imp'
-import { initDB } from './js/model/database'
+import initRouterHandler from './router-imp'
+import { initDB } from './model/database'
 
 var app = new Koa()
 var router = new Router()

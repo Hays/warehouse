@@ -11,7 +11,7 @@
       "taskName": "build", //task名称
       "args": [ //npm run build
         "run",
-        "build"
+        "cleanBuild"
       ],
       "isBuildCommand": true
     }
