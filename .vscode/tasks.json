@@ -8,10 +8,10 @@
   "suppressTaskName": true,
   "tasks": [
     {
-      "taskName": "build", //task名称
+      "taskName": "buildAll", //task名称
       "args": [ //npm run build
         "run",
-        "cleanBuild"
+        "buildAll"
       ],
       "isBuildCommand": true
     }
