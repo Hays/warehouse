@@ -1,12 +1,13 @@
 'use strict'
 var path = require('path')
 const uglify = require('uglifyjs-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     mode: 'development',
     entry: './client/js/app.js',
     output: {
-        path: path.resolve(__dirname, '../public/dist'),
+        path: path.resolve(__dirname, '../../dist/client/public'),
         filename: 'main.bundle.js'
     },
     module: {
@@ -24,6 +25,11 @@ module.exports = {
         ]
     },
     plugins:[
-        new uglify()
+        new uglify(),
+        new CopyWebpackPlugin([{
+            from: './client/public/index.html',
+            to: path.resolve(__dirname, '../../dist/client/public'),
+            force: true
+        }])
     ]
 }

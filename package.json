@@ -5,6 +5,7 @@
   "scripts": {
     "buildAll": "rimraf dist/ && rimraf client/public/dist/ && npm run bundleClient && npm run build",
     "bundleClient": "./node_modules/.bin/webpack --config ./client/js/webpack.config.js",
+    "buildClient": "babel ./client --out-dir dist/client --ignore ./node_modules,./server,./.babelrc,./package.json,./npm-debug.log,./client/js,./client/public --copy-files --source-maps",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
     "release": "babel ./ --out-dir release/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",
     "start": "npm run buildAll && node dist/server/index.js",
@@ -41,6 +42,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.1",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.7.0",
     "rimraf": "^2.6.2",
