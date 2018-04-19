@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "simple warehouse system",
   "scripts": {
-    "buildAll": "rimraf dist/ && rimraf client/dist/ && npm run bundleClient && npm run build",
+    "buildAll": "rimraf dist/ && rimraf client/public/dist/ && npm run bundleClient && npm run build",
     "bundleClient": "./node_modules/.bin/webpack --config ./client/js/webpack.config.js",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
     "release": "babel ./ --out-dir release/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",

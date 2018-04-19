@@ -16,8 +16,7 @@ const logger = (ctx, next) => {
 }
 
 // 这里logger不能放前面，否则会导致静态路由失效
-// TODO:这里需要把public文件区分开，例如webpack.config就不应该暴露出来
-app.use(serve(path.join(__dirname, '../..', 'client')))
+app.use(serve(path.join(__dirname, '../..', 'client/public')))
 app.use(logger)
 initRouterHandler(router)
 app.use(router.routes())

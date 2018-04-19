@@ -6,5 +6,5 @@ const { addItem } = dataHandle
 
 export default function initRouterHandler(router) {
     router.get('/', homeHandle)
-    router.get('/main.bundle.js', bundleJSHandle)
+    // router.get('/main.bundle.js', bundleJSHandle)
 }
