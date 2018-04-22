@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
-import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles } from 'material-ui'
+import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
 import styles from './styles'
-import { Button } from 'material-ui';
+import SimpleTextInputDialog from '../widgets/SimpleTextInputDialog'
 
 class CategoryView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: []
+      data: [],
+      open: false
     }
   }
   componentDidMount(props) {
 
   }
 
-  handleAddEvent() {
-    console.log('test by Hays !!!')
+  handleAddCategory(name) {
+    console.log(`add category ${name}`)
   }
 
   render() {
@@ -27,7 +28,7 @@ class CategoryView extends Component {
               <TableCell>
                 <div className={this.props.classes.header}>
                   <div>类别名称</div>
-                  <Button variant='raised' color='primary' onClick={this.handleAddEvent.bind(this)}>
+                  <Button variant='raised' color='primary' onClick={this.setState({open: true})}>
                       添加
                   </Button>
                 </div>
@@ -42,6 +43,7 @@ class CategoryView extends Component {
             ))}
           </TableBody>
         </Table>
+        <SimpleTextInputDialog title='添加类别' open={this.state.open} onConfirm={this.handleAddCategory.bind(this)} onCancel={()=>{this.setState({open: false})}} placeholder='Name' />
       </Paper>
     )
   }
