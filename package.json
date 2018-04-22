@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "description": "simple warehouse system",
   "scripts": {
-    "buildAll": "rimraf dist/ && rimraf client/public/dist/ && npm run bundleClient && npm run build",
+    "buildAll": "rimraf dist/ && npm run bundleClient && npm run build",
     "bundleClient": "./node_modules/.bin/webpack --config ./client/js/webpack.config.js",
     "buildClient": "babel ./client --out-dir dist/client --ignore ./node_modules,./server,./.babelrc,./package.json,./npm-debug.log,./client/js,./client/public --copy-files --source-maps",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
     "release": "babel ./ --out-dir release/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",
     "start": "npm run buildAll && node dist/server/index.js",
+    "startClient": "npm run bundleClient && npm run buildClient && node dist/client/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,10 +32,11 @@
     "koa-compose": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
-    "material-ui": "^0.20.0",
+    "material-ui": "^1.0.0-beta.42",
     "mongoose": "^5.0.14",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

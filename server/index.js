@@ -11,8 +11,8 @@ var router = new Router()
 initDB()
 
 const logger = (ctx, next) => {
-    console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`)
-    next()
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`)
+  next()
 }
 
 // 这里logger不能放前面，否则会导致静态路由失效
