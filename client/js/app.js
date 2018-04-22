@@ -8,6 +8,7 @@ import MainMenu, { options } from './components/main-menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import { createBrowserHistory } from 'history'
 import Home from './components/home'
+import Category from './components/category' 
   
 const About = () => (
   <div>
@@ -90,24 +91,10 @@ class App extends Component {
               onMenuClick={this.handleMenuClick.bind(this)} />
           </AppBar>
           
-          <Route exact path='/' component={Home} />
-          <Route path="/about" component={About}/>
+          <Route exact path={options[0][1]} component={Home} />
+          <Route path={options[2][1]} component={Category}/>
+          <Route path={options[3][1]} component={About}/>
         </MuiThemeProvider>
-                
-        {/* <div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/topics">Topics</Link></li>
-      </ul>
-
-      <hr/>
-
-      <Route exact path="/" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/topics" component={Topics}/>
-      <hr />
-    </div> */}
       </Router>
     )
   }

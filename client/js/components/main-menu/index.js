@@ -22,7 +22,7 @@ export default (props) => (
       }
     }} >
     {options.map(opt => (
-      <MenuItem key={opt[0]} selected={opt[0] === props.selected} onClick={()=>{props.onMenuClick(opt[0], opt[1])}}>
+      <MenuItem key={opt[1]} selected={opt[0] === props.selected} onClick={()=>{props.onMenuClick(opt[0], opt[1])}}>
         {opt[0]}
       </MenuItem>
     ))}
