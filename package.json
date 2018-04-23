@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "simple warehouse system",
   "scripts": {
-    "buildAll": "rimraf dist/ && npm run bundleClient && npm run build",
+    "buildServer": "npm run build",
     "bundleClient": "./node_modules/.bin/webpack --config ./client/js/webpack.config.js",
     "buildClient": "babel ./client --out-dir dist/client --ignore ./node_modules,./server,./.babelrc,./package.json,./npm-debug.log,./client/js,./client/public --copy-files --source-maps",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
@@ -29,7 +29,7 @@
     "@material-ui/icons": "^1.0.0-beta.42",
     "axios": "^0.18.0",
     "koa": "^2.5.0",
-    "koa-body": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
     "koa-compose": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",

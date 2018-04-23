@@ -2,8 +2,8 @@ import Koa from 'koa'
 import Router from 'koa-router'
 import initRouterHandler from './router-imp'
 import { initDB } from './model/database'
-import serve from 'koa-static'
 import path from 'path'
+import bodyParser from 'koa-bodyparser'
 
 var app = new Koa()
 var router = new Router()
@@ -15,8 +15,8 @@ const logger = (ctx, next) => {
   next()
 }
 
-// 这里logger不能放前面，否则会导致静态路由失效
-app.use(serve(path.join(__dirname, '../..', 'client/public')))
+// body parser也是不能放在logger之后，只能在最前面设置
+app.use(bodyParser())
 app.use(logger)
 initRouterHandler(router)
 app.use(router.routes())

@@ -10,15 +10,14 @@
             "name": "启动程序",
             "program": "${workspaceRoot}\\dist\\server\\index.js",
             "sourceMaps": true, //sourcemap打开
-            "preLaunchTask": "buildAll" //首先执行build task
+            "preLaunchTask": "buildServer" //首先执行build task
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "附加到端口",
+            "address": "localhost",
+            "port": 8089
         }
-        // ,
-        // {
-        //     "type": "node",
-        //     "request": "attach",
-        //     "name": "附加到端口",
-        //     "address": "localhost",
-        //     "port": 8080
-        // }
     ]
 }
