@@ -10,9 +10,9 @@ var router = new Router()
 
 initDB()
 
-const logger = (ctx, next) => {
+const logger = async (ctx, next) => {
   console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`)
-  next()
+  await next()
 }
 
 // body parser也是不能放在logger之后，只能在最前面设置

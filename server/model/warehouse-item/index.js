@@ -35,7 +35,7 @@ export async function addCategory(name) {
   console.info(`add category by name : ${name}`)
   let cat = new CategoryModel({ name: name })
   let ret = await cat.save()
-  // console.log(`category save ret: ${ret}, id: ${ret._id}`)
+  console.log(`category save ret: ${ret}, id: ${ret._id}`)
   return ret
 }
 
