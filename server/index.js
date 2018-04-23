@@ -10,6 +10,7 @@ var router = new Router()
 
 initDB()
 
+// 由于router中的处理方法均为用了async和await，因此整个中间件调用栈也都需要统一为async和await
 const logger = async (ctx, next) => {
   console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`)
   await next()
