@@ -4,6 +4,7 @@ import initRouterHandler from './router-imp'
 import { initDB } from './model/database'
 import path from 'path'
 import bodyParser from 'koa-bodyparser'
+import cors from 'koa-cors'
 
 var app = new Koa()
 var router = new Router()
@@ -17,6 +18,7 @@ const logger = async (ctx, next) => {
 }
 
 // body parser也是不能放在logger之后，只能在最前面设置
+app.use(cors())
 app.use(bodyParser())
 app.use(logger)
 initRouterHandler(router)

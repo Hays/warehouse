@@ -84,6 +84,7 @@ class App extends Component {
                 Warehouse
               </Typography>
             </Toolbar>
+            {/* TODO: 这里后面可以更换为drawer */}
             <MainMenu 
               anchorEl={this.state.target}
               selected={this.state.selected} 
