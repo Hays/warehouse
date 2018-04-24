@@ -57,6 +57,12 @@ export async function addBrand(name) {
   return ret
 }
 
+export async function getAllBrands() {
+  let ret = await BrandModel.find()
+  console.info(`list all brands : ${ret}`)
+  return ret
+}
+
 export async function addItem(name, desc, brandId, categoryId) {
   let item = new ItemModel({
     name: name,

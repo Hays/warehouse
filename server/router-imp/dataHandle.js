@@ -1,4 +1,10 @@
-import { addCategory, addBatch, addBrand, getAllCategory } from '../model/warehouse-item'
+import { 
+  addCategory, 
+  addBatch, 
+  addBrand, 
+  getAllCategory, 
+  getAllBrands 
+} from '../model/warehouse-item'
 import fs from 'fs'
 
 function addItem(ctx, next) {
@@ -82,11 +88,26 @@ async function handleGetCategorys(ctx, next) {
   ctx.body = JSON.stringify(resp)
 }
 
+async function handleGetBrand(ctx, next) {
+  ctx.status = 200
+  let ret = await getAllBrands()
+  let data = ret.map(brand => ({
+    id: brand._id,
+    name: brand.name
+  }))
+  let resp = {
+    code: 0,
+    data: data
+  }
+  ctx.body = JSON.stringify(resp)
+}
+
 export default {
   addItem,
   listAllItems,
   removeItem,
   handleAddCategory,
   handleAddBrand,
-  handleGetCategorys
+  handleGetCategorys,
+  handleGetBrand
 }

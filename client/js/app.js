@@ -8,7 +8,8 @@ import MainMenu, { options } from './components/main-menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import { createBrowserHistory } from 'history'
 import Home from './components/home'
-import Category from './components/category' 
+import Category from './components/category'
+import Brand from './components/brand'
   
 const About = () => (
   <div>
@@ -93,6 +94,7 @@ class App extends Component {
           </AppBar>
           
           <Route exact path={options[0][1]} component={Home} />
+          <Route path={options[1][1]} component={Brand} />
           <Route path={options[2][1]} component={Category}/>
           <Route path={options[3][1]} component={About}/>
         </MuiThemeProvider>
