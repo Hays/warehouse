@@ -3,15 +3,68 @@ import {
   addBatch, 
   addBrand, 
   getAllCategory, 
-  getAllBrands 
+  getAllBrands,
+  getAllItems,
+  addItem
 } from '../model/warehouse-item'
-import fs from 'fs'
 
-function addItem(ctx, next) {
+async function handleAddItem(ctx, next) {
+  let params = ctx.request.body
+  if (!params.name && !params.brandId && params.categoryId) {
+    console.warn(`add item failed for params invalid, name: ${params.name}, brandId: ${params.brandId}, categoryId: ${params.categoryId}`)
+    ctx.status = 400
+    ctx.body = 'add item failed, reason: params invalid'
+    return
+  }
+  let desc = params.desc ? params.desc : ''
+  try {
+    let ret = await addItem(params.name, desc, params.brandId, params.categoryId)
+    console.info(`add item success, ${ret}`)
+    ctx.status = 200
+    let resp = {
+      code: 0,
+      data: {
+        id: ret._id,
+        name: ret.name,
+        desc: ret.desc,
+        brand: ret.brand,
+        category: ret.category
+      }
+    }
+    ctx.body = JSON.stringify(resp)
+  } catch (e) {
+    ctx.status = 400
+    ctx.body = 'add item failed'
+    console.error(`add item failed, reason: ${e}`)
+  }
 }
 
-function listAllItems(ctx, next) {
-
+async function handleGetAllItems(ctx, next) {
+  ctx.status = 200
+  let ret = await getAllItems()
+  let data = ret.map(item => {
+    let cat = {
+      id: item.category._id,
+      name: item.category.name
+    }
+    let brand = {
+      id: item.brand._id,
+      name: item.brand.name
+    }
+    return {
+      id: item._id,
+      name: item.name,
+      brand: brand,
+      category: cat,
+      desc: item.desc,
+      updated: item.updated
+    }
+  })
+  let resp = {
+    code: 0,
+    data: data
+  }
+  ctx.body = JSON.stringify(resp)
 }
 
 function removeItem(ctx, next) {
@@ -103,8 +156,8 @@ async function handleGetBrand(ctx, next) {
 }
 
 export default {
-  addItem,
-  listAllItems,
+  handleAddItem,
+  handleGetAllItems,
   removeItem,
   handleAddCategory,
   handleAddBrand,

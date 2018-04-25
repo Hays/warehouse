@@ -1,6 +1,7 @@
 import dataHandle from './dataHandle'
 const {
-  addItem,
+  handleAddItem,
+  handleGetAllItems,
   handleAddCategory,
   handleGetCategorys,
   handleAddBrand,
@@ -12,4 +13,6 @@ export default function initRouterHandler(router) {
   router.get('/categorys', handleGetCategorys)
   router.post('/brand/add', handleAddBrand)
   router.get('/brands', handleGetBrand)
+  router.post('/item/add', handleAddItem)
+  router.get('/items', handleGetAllItems)
 }

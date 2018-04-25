@@ -5,7 +5,7 @@ let ItemSchema = new Schema({
   brand: { type: Schema.Types.ObjectId, ref: 'Brand' },
   desc: String,
   updated: { type: Date, default: Date.now },
-  category: { type: Schema.Types.ObjectId, ref: 'Batch' }
+  category: { type: Schema.Types.ObjectId, ref: 'Category' }
 })
 
 let BrandSchema = new Schema({
@@ -72,6 +72,11 @@ export async function addItem(name, desc, brandId, categoryId) {
   })
   let ret = await item.save()
   return ret
+}
+
+export async function getAllItems() {
+  let result = await ItemModel.find().populate('brand').populate('category')
+  return result
 }
 
 export async function addBatch(itemId, count, price, source) {
