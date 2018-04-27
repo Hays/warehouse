@@ -75,7 +75,16 @@ export async function addItem(name, desc, brandId, categoryId) {
 }
 
 export async function getAllItems() {
-  let result = await ItemModel.find().populate('brand').populate('category')
+  let result = await ItemModel.find().populate('brand').populate('category').lean()
+  // 先试一下用聚合，如果性能差再改为添加字段count作为缓存
+  let batch = await BrandModel.aggregate().group({_id: '$itemId', count: { '$sum': '$stock'}})
+  result = result.map((item) => {
+    let temp = batch.filter((b) => (b.itemId === item._id))
+    let count = temp.length > 0 ? temp[0].count : 0
+    item.count = count
+    return item
+  })
+  console.log(result)
   return result
 }
 

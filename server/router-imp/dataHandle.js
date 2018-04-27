@@ -57,7 +57,8 @@ async function handleGetAllItems(ctx, next) {
       brand: brand,
       category: cat,
       desc: item.desc,
-      updated: item.updated
+      updated: item.updated,
+      count: item.count
     }
   })
   let resp = {

@@ -3,7 +3,9 @@ import {
   GET_CATEGORYS_API,
   ADD_CATEGORY_API,
   GET_BRANDS_API,
-  ADD_BRAND_API
+  ADD_BRAND_API,
+  GET_ITEMS_API,
+  ADD_ITEM_API
 } from './constants'
 
 export function getCategorys() {
@@ -37,5 +39,12 @@ export function addBrand(name) {
     } else {
       return response.status
     }
+  })
+}
+
+export function getItems() {
+  return axios.get(GET_ITEMS_API).then(response => {
+    let data = response.data
+    return data
   })
 }

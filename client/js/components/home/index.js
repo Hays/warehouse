@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
+import ItemList from '../item'
 
 export default (props) => (
-  <div>
-    <h2>Home</h2>
-  </div>
+  <ItemList />
 )

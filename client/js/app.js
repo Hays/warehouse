@@ -53,7 +53,7 @@ const Topics = ({ match }) => (
   </div>
 )
 
-const history = createBrowserHistory()
+export const history = createBrowserHistory()
 class App extends Component {
   constructor(props) {
     super(props)
