@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
 import styles from './styles'
 import { getItems } from '../../network/warehouse'
+import { history } from '../../app'
 
 const headers = [
   '名称',
@@ -41,13 +42,13 @@ class ItemListView extends Component {
             <TableRow key='item-header'>
               {headers.map(text => {
                 return (
-                  <TableCell>
+                  <TableCell key={text}>
                     {text}
                   </TableCell>
                 )
               })}
               <TableCell>
-                <Button variant='raised' color='primary' onClick={() => {console.log('test by Hays !!!! ')}}>
+                <Button variant='raised' color='primary' onClick={() => {history.push('/item-add')}}>
                   添加
                 </Button>
               </TableCell>

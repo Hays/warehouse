@@ -10,6 +10,7 @@ import { createBrowserHistory } from 'history'
 import Home from './components/home'
 import Category from './components/category'
 import Brand from './components/brand'
+import ItemUpdate from './components/item-update'
   
 const About = () => (
   <div>
@@ -97,6 +98,7 @@ class App extends Component {
           <Route path={options[1][1]} component={Brand} />
           <Route path={options[2][1]} component={Category}/>
           <Route path={options[3][1]} component={About}/>
+          <Route path='/item-add' component={ItemUpdate} />
         </MuiThemeProvider>
       </Router>
     )
