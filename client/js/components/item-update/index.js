@@ -39,8 +39,6 @@ class ItemUpdateView extends Component {
     let msg = null
     if (!this.state.name) {
       msg = 'blank name'
-    } else if (!this.state.desc) {
-      msg = 'blank desc'
     } else if (!this.state.category.id) {
       msg = 'blank category'
     } else if (!this.state.brand.id) {
@@ -49,14 +47,15 @@ class ItemUpdateView extends Component {
 
     if (msg) {
       this.setState({errMsg: msg})
-    } else {
-      this.setState({errMsg: ''})
+      return
     }
+
+    let desc = this.state.desc ? this.state.desc : ''
 
     addItem(this.state.name,
       this.state.brand.id,
       this.state.category.id,
-      this.state.desc).then(ret => {
+      desc).then(ret => {
       this.handleCancel()
     }).catch(err => {
       console.error(`add item error: ${err}`)
@@ -64,7 +63,7 @@ class ItemUpdateView extends Component {
   }
 
   handleCancel () {
-    history.push('/items')
+    history.push('/')
   }
 
   handleSelectEvent (option) {
