@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-import { withStyles, Button, FormControl, InputLabel, Input, Menu, MenuItem } from 'material-ui'
+import { withStyles, Button, FormControl, InputLabel, Input, Menu, MenuItem, FormHelperText } from 'material-ui'
 import styles from './styles'
 import { history } from '../../app'
-import { getCategorys, getBrands } from '../../network/warehouse'
+import { getCategorys, getBrands, addItem } from '../../network/warehouse'
 
 class ItemUpdateView extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    // 这里可以通过history push(${path}, ${state})传递参数过来 
+    // 这里可以通过history push(${path}, ${state})传递参数过来
     if (props.location.state) {
       // TODO: 存在时则为修改信息
     }
     this.state = {
+      name: '',
+      desc: '',
       brand: {
         name: ''
       },
@@ -24,23 +26,48 @@ class ItemUpdateView extends Component {
       isCat: false,
       options: [],
       isClosing: false,
+      errMsg: ''
     }
   }
 
-  componentDidMount(props) {
+  componentDidMount (props) {
     this.loadCategorys()
     this.loadBrands()
   }
 
-  handleOK() {
+  handleOK () {
+    let msg = null
+    if (!this.state.name) {
+      msg = 'blank name'
+    } else if (!this.state.desc) {
+      msg = 'blank desc'
+    } else if (!this.state.category.id) {
+      msg = 'blank category'
+    } else if (!this.state.brand.id) {
+      msg = 'blank brand'
+    }
 
+    if (msg) {
+      this.setState({errMsg: msg})
+    } else {
+      this.setState({errMsg: ''})
+    }
+
+    addItem(this.state.name,
+      this.state.brand.id,
+      this.state.category.id,
+      this.state.desc).then(ret => {
+      this.handleCancel()
+    }).catch(err => {
+      console.error(`add item error: ${err}`)
+    })
   }
 
-  handleCancel() {
+  handleCancel () {
     history.push('/items')
   }
 
-  handleSelectEvent(option) {
+  handleSelectEvent (option) {
     if (this.state.isCat) {
       this.setState({
         category: option,
@@ -50,13 +77,13 @@ class ItemUpdateView extends Component {
     } else {
       this.setState({
         brand: option,
-        focusInput: null, 
+        focusInput: null,
         isClosing: true
       })
     }
   }
 
-  loadCategorys() {
+  loadCategorys () {
     getCategorys().then(ret => {
       this.setState({
         categorys: ret.data
@@ -66,7 +93,7 @@ class ItemUpdateView extends Component {
     })
   }
 
-  loadBrands() {
+  loadBrands () {
     getBrands().then(ret => {
       this.setState({
         brands: ret.data
@@ -76,12 +103,12 @@ class ItemUpdateView extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <div className={this.props.classes.root}>
         <FormControl className={this.props.classes.row}>
           <InputLabel htmlFor='name-input'>Name</InputLabel>
-          <Input id='name-input' />
+          <Input id='name-input' onChange={(e) => { this.setState({name: e.target.value}) }} />
         </FormControl>
         <FormControl className={this.props.classes.row}>
           <InputLabel htmlFor='brand-select'>Brand</InputLabel>
@@ -97,23 +124,24 @@ class ItemUpdateView extends Component {
         </FormControl>
         <FormControl className={this.props.classes.row}>
           <InputLabel htmlFor='desc-input'>Description</InputLabel>
-          <Input id='desc-input' />
+          <Input id='desc-input' onChange={(e) => { this.setState({desc: e.target.value}) }} />
         </FormControl>
+        {this.state.errMsg && <FormHelperText id='error-msg'>{this.state.errMsg}</FormHelperText>}
         <div className={this.props.classes.bottom}>
           <Button className={this.props.classes.button} variant='raised' color='primary' onClick={this.handleCancel.bind(this)}>Cancel</Button>
           <Button className={this.props.classes.button} variant='raised' color='primary' onClick={this.handleOK.bind(this)}>OK</Button>
         </div>
 
-        <Menu 
-          id='item-menu' 
-          anchorEl={this.state.focusInput} 
+        <Menu
+          id='item-menu'
+          anchorEl={this.state.focusInput}
           open={Boolean(this.state.focusInput)}
           onClose={() => {
             this.setState({focusInput: null})
           }}
           PaperProps={{
             style: {
-              maxHeight: 48*4.5,
+              maxHeight: 216,
               width: 200
             }
           }} >

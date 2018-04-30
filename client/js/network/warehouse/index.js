@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { 
+import {
   GET_CATEGORYS_API,
   ADD_CATEGORY_API,
   GET_BRANDS_API,
@@ -8,14 +8,14 @@ import {
   ADD_ITEM_API
 } from './constants'
 
-export function getCategorys() {
+export function getCategorys () {
   return axios.get(GET_CATEGORYS_API).then(response => {
     let data = response.data
     return data
   })
 }
 
-export function addCategory(name) {
+export function addCategory (name) {
   return axios.post(ADD_CATEGORY_API, {name: name}).then((response) => {
     if (response.status === 200) {
       return 0
@@ -25,14 +25,14 @@ export function addCategory(name) {
   })
 }
 
-export function getBrands() {
+export function getBrands () {
   return axios.get(GET_BRANDS_API).then(response => {
     let data = response.data
     return data
   })
 }
 
-export function addBrand(name) {
+export function addBrand (name) {
   return axios.post(ADD_BRAND_API, {name: name}).then((response) => {
     if (response.status === 200) {
       return 0
@@ -42,9 +42,19 @@ export function addBrand(name) {
   })
 }
 
-export function getItems() {
+export function getItems () {
   return axios.get(GET_ITEMS_API).then(response => {
     let data = response.data
     return data
+  })
+}
+
+export function addItem (name, brandId, catId, desc) {
+  return axios.post(ADD_ITEM_API, {name: name, brandId: brandId, categoryId: catId, desc: desc}).then((response) => {
+    if (response.status === 200) {
+      return 0
+    } else {
+      return response.status
+    }
   })
 }
