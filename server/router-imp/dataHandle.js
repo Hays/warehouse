@@ -1,14 +1,14 @@
-import { 
-  addCategory, 
-  addBatch, 
-  addBrand, 
-  getAllCategory, 
+import {
+  addCategory,
+  addBatch,
+  addBrand,
+  getAllCategory,
   getAllBrands,
   getAllItems,
   addItem
 } from '../model/warehouse-item'
 
-async function handleAddItem(ctx, next) {
+async function handleAddItem (ctx, next) {
   let params = ctx.request.body
   if (!params.name && !params.brandId && params.categoryId) {
     console.warn(`add item failed for params invalid, name: ${params.name}, brandId: ${params.brandId}, categoryId: ${params.categoryId}`)
@@ -39,7 +39,7 @@ async function handleAddItem(ctx, next) {
   }
 }
 
-async function handleGetAllItems(ctx, next) {
+async function handleGetAllItems (ctx, next) {
   ctx.status = 200
   let ret = await getAllItems()
   let data = ret.map(item => {
@@ -68,11 +68,11 @@ async function handleGetAllItems(ctx, next) {
   ctx.body = JSON.stringify(resp)
 }
 
-function removeItem(ctx, next) {
-    
+function removeItem (ctx, next) {
+
 }
 
-async function handleAddCategory(ctx, next) {
+async function handleAddCategory (ctx, next) {
   let param = ctx.request.body
   if (param.name) {
     console.log(`will add category .... ${param.name}`)
@@ -100,7 +100,7 @@ async function handleAddCategory(ctx, next) {
   }
 }
 
-async function handleAddBrand(ctx, next) {
+async function handleAddBrand (ctx, next) {
   let param = ctx.request.body
   if (param.name) {
     console.log(`will add brand .... ${param.name}`)
@@ -128,7 +128,7 @@ async function handleAddBrand(ctx, next) {
   }
 }
 
-async function handleGetCategorys(ctx, next) {
+async function handleGetCategorys (ctx, next) {
   ctx.status = 200
   let ret = await getAllCategory()
   let data = ret.map(cat => ({
@@ -142,7 +142,7 @@ async function handleGetCategorys(ctx, next) {
   ctx.body = JSON.stringify(resp)
 }
 
-async function handleGetBrand(ctx, next) {
+async function handleGetBrand (ctx, next) {
   ctx.status = 200
   let ret = await getAllBrands()
   let data = ret.map(brand => ({

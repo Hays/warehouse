@@ -9,7 +9,7 @@ var router = new Router()
 
 app.use(serve(path.join(__dirname, '.', 'public')))
 
-router.get('*', function (ctx, next){
+router.get('*', function (ctx, next) {
   ctx.response.type = 'html'
   ctx.response.body = fs.createReadStream(path.join(__dirname, '.', 'public/index.html'))
 })
