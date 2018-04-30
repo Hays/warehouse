@@ -2,7 +2,6 @@ import Koa from 'koa'
 import Router from 'koa-router'
 import initRouterHandler from './router-imp'
 import { initDB } from './model/database'
-import path from 'path'
 import bodyParser from 'koa-bodyparser'
 import cors from 'koa-cors'
 

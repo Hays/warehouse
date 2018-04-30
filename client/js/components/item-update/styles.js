@@ -3,7 +3,7 @@ export default (theme) => ({
     display: 'flex',
     'flex-direction': 'column',
     'align-items': 'center',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
   row: {
     margin: theme.spacing.unit,
@@ -17,6 +17,6 @@ export default (theme) => ({
     'align-items': 'center'
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   }
 })

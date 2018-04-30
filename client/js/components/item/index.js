@@ -13,18 +13,18 @@ const headers = [
 ]
 
 class ItemListView extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       data: []
     }
   }
 
-  componentDidMount(props) {
+  componentDidMount (props) {
     this.reloadData()
   }
 
-  reloadData() {
+  reloadData () {
     getItems().then(ret => {
       this.setState({
         data: ret.data
@@ -34,7 +34,7 @@ class ItemListView extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <Paper className={this.props.classes.root}>
         <Table className={this.props.classes.table}>
@@ -48,7 +48,7 @@ class ItemListView extends Component {
                 )
               })}
               <TableCell>
-                <Button variant='raised' color='primary' onClick={() => {history.push('/item-add')}}>
+                <Button variant='raised' color='primary' onClick={() => { history.push('/item-add') }}>
                   添加
                 </Button>
               </TableCell>

@@ -8,7 +8,7 @@ const {
   handleGetBrand
 } = dataHandle
 
-export default function initRouterHandler(router) {
+export default function initRouterHandler (router) {
   router.post('/category/add', handleAddCategory)
   router.get('/categorys', handleGetCategorys)
   router.post('/brand/add', handleAddBrand)

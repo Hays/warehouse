@@ -5,18 +5,18 @@ import SimpleTextInputDialog from '../widgets/SimpleTextInputDialog'
 import { getCategorys, addCategory } from '../../network/warehouse'
 
 class CategoryView extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       data: [],
       open: false
     }
   }
-  componentDidMount(props) {
+  componentDidMount (props) {
     this.reloadData()
   }
 
-  handleAddCategory(name) {
+  handleAddCategory (name) {
     console.log(`add category ${name}`)
     if (!name) {
       console.warn('name can not be blank!')
@@ -35,7 +35,7 @@ class CategoryView extends Component {
     })
   }
 
-  reloadData() {
+  reloadData () {
     getCategorys().then(ret => {
       this.setState({
         data: ret.data
@@ -45,7 +45,7 @@ class CategoryView extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <Paper className={this.props.classes.root}>
         <Table className={this.props.classes.table}>
@@ -54,7 +54,7 @@ class CategoryView extends Component {
               <TableCell>
                 <div className={this.props.classes.header}>
                   <div>类别名称</div>
-                  <Button variant='raised' color='primary' onClick={() => {this.setState({open: true})}}>
+                  <Button variant='raised' color='primary' onClick={() => { this.setState({open: true}) }}>
                       添加
                   </Button>
                 </div>
@@ -69,7 +69,7 @@ class CategoryView extends Component {
             ))}
           </TableBody>
         </Table>
-        <SimpleTextInputDialog title='添加类别' open={this.state.open} onConfirm={this.handleAddCategory.bind(this)} onCancel={()=>{this.setState({open: false})}} placeholder='Name' />
+        <SimpleTextInputDialog title='添加类别' open={this.state.open} onConfirm={this.handleAddCategory.bind(this)} onCancel={() => { this.setState({open: false}) }} placeholder='Name' />
       </Paper>
     )
   }

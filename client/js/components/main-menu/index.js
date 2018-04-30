@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Menu, MenuItem } from 'material-ui'
-import { Link } from 'react-router-dom'
 
 export const options = [
   ['Home', '/'],
@@ -10,19 +9,19 @@ export const options = [
 ]
 
 export default (props) => (
-  <Menu 
-    id='main-menu' 
-    anchorEl={props.anchorEl} 
+  <Menu
+    id='main-menu'
+    anchorEl={props.anchorEl}
     open={Boolean(props.anchorEl)}
     onClose={props.handleClose}
     PaperProps={{
       style: {
-        maxHeight: 48*4.5,
+        maxHeight: 48 * 4.5,
         width: 200
       }
     }} >
     {options.map(opt => (
-      <MenuItem key={opt[1]} selected={opt[0] === props.selected} onClick={()=>{props.onMenuClick(opt[0], opt[1])}}>
+      <MenuItem key={opt[1]} selected={opt[0] === props.selected} onClick={() => { props.onMenuClick(opt[0], opt[1]) }}>
         {opt[0]}
       </MenuItem>
     ))}

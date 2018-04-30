@@ -5,18 +5,18 @@ import SimpleTextInputDialog from '../widgets/SimpleTextInputDialog'
 import { getBrands, addBrand } from '../../network/warehouse'
 
 class BrandView extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       data: [],
       open: false
     }
   }
-  componentDidMount(props) {
+  componentDidMount (props) {
     this.reloadData()
   }
 
-  handleAddBrand(name) {
+  handleAddBrand (name) {
     console.log(`add brand ${name}`)
     if (!name) {
       console.warn('name can not be blank!')
@@ -35,7 +35,7 @@ class BrandView extends Component {
     })
   }
 
-  reloadData() {
+  reloadData () {
     getBrands().then(ret => {
       this.setState({
         data: ret.data
@@ -45,7 +45,7 @@ class BrandView extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <Paper className={this.props.classes.root}>
         <Table className={this.props.classes.table}>
@@ -54,7 +54,7 @@ class BrandView extends Component {
               <TableCell>
                 <div className={this.props.classes.header}>
                   <div>品牌名称</div>
-                  <Button variant='raised' color='primary' onClick={() => {this.setState({open: true})}}>
+                  <Button variant='raised' color='primary' onClick={() => { this.setState({open: true}) }}>
                       添加
                   </Button>
                 </div>
@@ -69,7 +69,7 @@ class BrandView extends Component {
             ))}
           </TableBody>
         </Table>
-        <SimpleTextInputDialog title='添加品牌' open={this.state.open} onConfirm={this.handleAddBrand.bind(this)} onCancel={()=>{this.setState({open: false})}} placeholder='Name' />
+        <SimpleTextInputDialog title='添加品牌' open={this.state.open} onConfirm={this.handleAddBrand.bind(this)} onCancel={() => { this.setState({open: false}) }} placeholder='Name' />
       </Paper>
     )
   }

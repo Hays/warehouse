@@ -11,19 +11,19 @@ import Home from './components/home'
 import Category from './components/category'
 import Brand from './components/brand'
 import ItemUpdate from './components/item-update'
-  
+
 const About = () => (
   <div>
     <h2>About</h2>
   </div>
 )
-  
+
 const Topic = ({ match }) => (
   <div>
     <h3>{match.params.topicId}</h3>
   </div>
 )
-  
+
 const Topics = ({ match }) => (
   <div>
     <h2>Topics</h2>
@@ -47,24 +47,24 @@ const Topics = ({ match }) => (
     <div>
       <h2>Home</h2>
     </div>
-    <Route path={`${match.path}/:topicId`} component={Topic}/>
+    <Route path={`${match.path}/:topicId`} component={Topic} />
     <Route exact path={match.path} render={() => (
       <h3>Please select a topic.</h3>
-    )}/>
+    )} />
   </div>
 )
 
 export const history = createBrowserHistory()
 class App extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       target: null,
-      selected: options[0],
+      selected: options[0]
     }
   }
 
-  handleMenuClick(name, url) {
+  handleMenuClick (name, url) {
     console.log(`select page ${name}`)
     this.setState({
       selected: name,
@@ -73,13 +73,13 @@ class App extends Component {
     history.push(url)
   }
 
-  render() {
+  render () {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={createMuiTheme()}>
-          <AppBar title="Warehouse" position="static">
+          <AppBar title='Warehouse' position='static'>
             <Toolbar>
-              <IconButton color='inherit' aria-label='Menu' onClick={(e) => {this.setState({target: e.currentTarget})}}>
+              <IconButton color='inherit' aria-label='Menu' onClick={(e) => { this.setState({target: e.currentTarget}) }}>
                 <MenuIcon />
               </IconButton>
               <Typography variant='title' color='inherit'>
@@ -87,17 +87,17 @@ class App extends Component {
               </Typography>
             </Toolbar>
             {/* TODO: 这里后面可以更换为drawer */}
-            <MainMenu 
+            <MainMenu
               anchorEl={this.state.target}
-              selected={this.state.selected} 
-              handleClose={() => {this.setState({target: null})}} 
+              selected={this.state.selected}
+              handleClose={() => { this.setState({target: null}) }}
               onMenuClick={this.handleMenuClick.bind(this)} />
           </AppBar>
-          
+
           <Route exact path={options[0][1]} component={Home} />
           <Route path={options[1][1]} component={Brand} />
-          <Route path={options[2][1]} component={Category}/>
-          <Route path={options[3][1]} component={About}/>
+          <Route path={options[2][1]} component={Category} />
+          <Route path={options[3][1]} component={About} />
           <Route path='/item-add' component={ItemUpdate} />
         </MuiThemeProvider>
       </Router>
