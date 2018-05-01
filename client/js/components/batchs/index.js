@@ -33,7 +33,7 @@ class ItemListView extends Component {
         data: ret.data
       })
     }).catch((err) => {
-      console.error(`get items error:${err}`)
+      console.error(`get batchs error:${err}`)
     })
   }
 
