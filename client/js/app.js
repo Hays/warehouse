@@ -11,6 +11,7 @@ import Home from './components/home'
 import Category from './components/category'
 import Brand from './components/brand'
 import ItemUpdate from './components/item-update'
+import Batchs from './components/batchs'
 
 const About = () => (
   <div>
@@ -99,6 +100,7 @@ class App extends Component {
           <Route path={options[2][1]} component={Category} />
           <Route path={options[3][1]} component={About} />
           <Route path='/item-add' component={ItemUpdate} />
+          <Route path='/batchs' component={Batchs} />
         </MuiThemeProvider>
       </Router>
     )

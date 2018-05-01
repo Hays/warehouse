@@ -1,20 +1,23 @@
 import React, { Component } from 'react'
 import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
 import styles from './styles'
-import { getItems } from '../../network/warehouse'
+import { getBatches } from '../../network/warehouse'
 import { history } from '../../app'
 
 const headers = [
-  '名称',
-  '品牌',
-  '类别',
-  '数量',
-  '更新日期'
+  '总量',
+  '库存',
+  '来源',
+  '入库日期',
+  '操作'
 ]
 
 class ItemListView extends Component {
   constructor (props) {
     super(props)
+    if (!props.location.state) {
+      console.error('can not found item id.....')
+    }
     this.state = {
       data: []
     }
@@ -25,7 +28,7 @@ class ItemListView extends Component {
   }
 
   reloadData () {
-    getItems().then(ret => {
+    getBatches(this.props.location.state.id).then(ret => {
       this.setState({
         data: ret.data
       })
@@ -47,24 +50,18 @@ class ItemListView extends Component {
                   </TableCell>
                 )
               })}
-              <TableCell>
-                <Button variant='raised' color='primary' onClick={() => { history.push('/item-add') }}>
-                  添加
-                </Button>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.data.map(item => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.brand.name}</TableCell>
-                <TableCell>{item.category.name}</TableCell>
-                <TableCell>{item.count}</TableCell>
-                <TableCell>{item.updated}</TableCell>
+            {this.state.data.map(batch => (
+              <TableRow key={batch.id}>
+                <TableCell>{batch.count}</TableCell>
+                <TableCell>{batch.stock}</TableCell>
+                <TableCell>{batch.source}</TableCell>
+                <TableCell>{batch.created}</TableCell>
                 <TableCell>
-                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { history.push('/batchs', item) }}>
-                    查看
+                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { console.log('test by Hays ... ') }}>
+                    删除
                   </Button>
                 </TableCell>
               </TableRow>

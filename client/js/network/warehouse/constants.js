@@ -5,7 +5,12 @@ export const GET_BRANDS_API = combineAPI('/brands')
 export const ADD_BRAND_API = combineAPI('/brand/add')
 export const GET_ITEMS_API = combineAPI('/items')
 export const ADD_ITEM_API = combineAPI('/item/add')
+export const ADD_BATCH_API = combineAPI('/batch/add')
 
 function combineAPI (api) {
   return SERVER_URL + api
+}
+
+export function batchsUrl (itemId) {
+  return combineAPI(`/item/${itemId}/batchs`)
 }
