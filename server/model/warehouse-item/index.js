@@ -47,6 +47,12 @@ export async function getAllCategory () {
   return ret
 }
 
+export async function deleteCategory (categoryId) {
+  let ret = await CategoryModel.remove({_id: categoryId})
+  console.log(`delete category result : ${ret.ok}, updated: ${ret.n}`)
+  return ret.ok && ret.n > 0
+}
+
 /* 品牌 */
 
 export async function addBrand (name) {
@@ -56,11 +62,19 @@ export async function addBrand (name) {
   return ret
 }
 
+export async function deleteBrand (brandId) {
+  let ret = await BrandModel.remove({_id: brandId})
+  console.log(`delete brand result : ${ret.ok}, updated: ${ret.n}`)
+  return ret
+}
+
 export async function getAllBrands () {
   let ret = await BrandModel.find()
   console.info(`list all brands : ${ret}`)
   return ret
 }
+
+/* 商品 */
 
 export async function addItem (name, desc, brandId, categoryId) {
   let item = new ItemModel({
@@ -70,6 +84,12 @@ export async function addItem (name, desc, brandId, categoryId) {
     category: categoryId
   })
   let ret = await item.save()
+  return ret
+}
+
+export async function deleteItem (itemId) {
+  let ret = await ItemModel.remove({_id: itemId})
+  console.log(`delete item result : ${ret.ok}, updated: ${ret.n}`)
   return ret
 }
 
@@ -98,4 +118,10 @@ export async function addBatch (itemId, count, price, source) {
   })
   let ret = await batch.save()
   return ret
+}
+
+export async function getBatchs (itemId) {
+  let result = await BrandModel.find({itemId: itemId})
+  console.log(`list item's(${itemId}) batchs : ${result}`)
+  return result
 }

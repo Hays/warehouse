@@ -5,12 +5,16 @@ import {
   getAllCategory,
   getAllBrands,
   getAllItems,
-  addItem
+  getBatchs,
+  addItem,
+  deleteCategory,
+  deleteBrand,
+  deleteItem
 } from '../model/warehouse-item'
 
 async function handleAddItem (ctx, next) {
   let params = ctx.request.body
-  if (!params.name && !params.brandId && params.categoryId) {
+  if (!params.name && !params.brandId && !params.categoryId) {
     console.warn(`add item failed for params invalid, name: ${params.name}, brandId: ${params.brandId}, categoryId: ${params.categoryId}`)
     ctx.status = 400
     ctx.body = 'add item failed, reason: params invalid'
@@ -66,10 +70,6 @@ async function handleGetAllItems (ctx, next) {
     data: data
   }
   ctx.body = JSON.stringify(resp)
-}
-
-function removeItem (ctx, next) {
-
 }
 
 async function handleAddCategory (ctx, next) {
@@ -156,12 +156,145 @@ async function handleGetBrand (ctx, next) {
   ctx.body = JSON.stringify(resp)
 }
 
+async function handleDeleteCategory (ctx, next) {
+  let param = ctx.request.body
+  if (param.categoryId) {
+    console.log(`will delete category .... ${param.categoryId}`)
+    try {
+      let ret = await deleteCategory(param.categoryId)
+      console.info(`delete category success, ${ret}`)
+      ctx.status = 200
+      let code = ret.ok ? 0 : -1
+      let resp = {
+        code: code,
+        data: {}
+      }
+      ctx.body = JSON.stringify(resp)
+    } catch (e) {
+      console.error(e)
+      ctx.status = 400
+      ctx.body = 'delete category failed!'
+    }
+  } else {
+    console.warn('handle delete category, param error: category id is blank!')
+    ctx.status = 400
+    ctx.body = 'category id can not be blank!'
+  }
+}
+
+async function handleDeleteBrand (ctx, next) {
+  let param = ctx.request.body
+  if (param.brandId) {
+    console.log(`will delete brand .... ${param.brandId}`)
+    try {
+      let ret = await deleteBrand(param.brandId)
+      console.info(`delete brand success, ${ret}`)
+      ctx.status = 200
+      let code = ret.ok ? 0 : -1
+      let resp = {
+        code: code,
+        data: {}
+      }
+      ctx.body = JSON.stringify(resp)
+    } catch (e) {
+      console.error(e)
+      ctx.status = 400
+      ctx.body = 'delete brand failed!'
+    }
+  } else {
+    console.warn('handle delete brand, param error: brand id is blank!')
+    ctx.status = 400
+    ctx.body = 'brand id can not be blank!'
+  }
+}
+
+async function handleDeleteItem (ctx, next) {
+  let param = ctx.request.body
+  if (param.itemId) {
+    console.log(`will delete item .... ${param.itemId}`)
+    try {
+      let ret = await deleteItem(param.itemId)
+      console.info(`delete item success, ${ret}`)
+      ctx.status = 200
+      let code = ret.ok ? 0 : -1
+      let resp = {
+        code: code,
+        data: {}
+      }
+      ctx.body = JSON.stringify(resp)
+    } catch (e) {
+      console.error(e)
+      ctx.status = 400
+      ctx.body = 'delete item failed!'
+    }
+  } else {
+    console.warn('handle delete item, param error: item id is blank!')
+    ctx.status = 400
+    ctx.body = 'item id can not be blank!'
+  }
+}
+
+async function handleAddBatch (ctx, next) {
+  let params = ctx.request.body
+  if (!params.itemId && !params.count && !params.price) {
+    console.warn(`add batch failed for params invalid, itemId: ${params.itemId}, count: ${params.count}, price: ${params.price}`)
+    ctx.status = 400
+    ctx.body = 'add batch failed, reason: params invalid'
+    return
+  }
+  let source = params.source ? params.source : ''
+  try {
+    let ret = await addBatch(params.itemId, params.count, params.price, source)
+    console.info(`add batch success, ${ret}`)
+    ctx.status = 200
+    let resp = {
+      code: 0,
+      data: {
+        id: ret._id,
+        itemId: ret.itemId,
+        count: ret.count,
+        stock: ret.count,
+        source: ret.source
+      }
+    }
+    ctx.body = JSON.stringify(resp)
+  } catch (e) {
+    ctx.status = 400
+    ctx.body = 'add batch failed'
+    console.error(`add batch failed, reason: ${e}`)
+  }
+}
+
+async function handleGetBatchs (ctx, next) {
+  ctx.status = 200
+  let ret = await getBatchs(ctx.params.itemId)
+  let data = ret.map(batch => {
+    return {
+      id: batch._id,
+      itemId: batch.itemId,
+      count: batch.count,
+      stock: batch.stock,
+      source: batch.source,
+      created: batch.date
+    }
+  })
+  let resp = {
+    code: 0,
+    data: data
+  }
+  ctx.body = JSON.stringify(resp)
+}
+
 export default {
   handleAddItem,
+  handleAddBatch,
   handleGetAllItems,
-  removeItem,
   handleAddCategory,
   handleAddBrand,
   handleGetCategorys,
-  handleGetBrand
+  handleGetBrand,
+  handleGetBatchs,
+  handleDeleteCategory,
+  handleDeleteBrand,
+  handleDeleteItem
 }
