@@ -4,20 +4,28 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "启动程序",
+        //     "program": "${workspaceRoot}/dist/server/index.js",
+        //     "sourceMaps": true, //sourcemap打开
+        //     "preLaunchTask": "buildServer" //首先执行build task
+        // },
+        // {
+        //     "type": "node",
+        //     "request": "attach",
+        //     "name": "附加到端口",
+        //     "address": "localhost",
+        //     "port": 8089
+        // }
         {
             "type": "node",
             "request": "launch",
-            "name": "启动程序",
-            "program": "${workspaceRoot}/dist/server/index.js",
-            "sourceMaps": true, //sourcemap打开
-            "preLaunchTask": "buildServer" //首先执行build task
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附加到端口",
-            "address": "localhost",
-            "port": 8089
+            "name": "启动客户端",
+            "program": "${workspaceRoot}/dist/client/index.js",
+            "sourceMaps": true,
+            "preLaunchTask": "bundleClient"
         }
     ]
 }

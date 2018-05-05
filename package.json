@@ -9,6 +9,7 @@
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --source-maps",
     "release": "babel ./ --out-dir release/ --ignore ./node_modules,./client,./.babelrc,./package.json,./npm-debug.log --copy-files --no-comments --compact true --minified",
     "start": "npm run buildAll && node dist/server/index.js",
+    "startServer": "npm run buildServer && node dist/server/index.js",
     "startClient": "npm run bundleClient && npm run buildClient && node dist/client/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

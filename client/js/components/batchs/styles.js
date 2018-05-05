@@ -15,5 +15,13 @@ export default (theme) => ({
   },
   button: {
     margin: theme.spacing.unit
+  },
+  bottom: {
+    display: 'flex',
+    'justify-content': 'flex-end',
+    height: '100%'
+  },
+  input: {
+    margin: theme.spacing.unit
   }
 })

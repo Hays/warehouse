@@ -1,8 +1,25 @@
 import React, { Component } from 'react'
-import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
+import {
+  TableHead,
+  TableCell,
+  TableRow,
+  TableBody,
+  Paper,
+  Table,
+  withStyles,
+  Button,
+  TableFooter,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Input,
+  DialogActions,
+  List,
+  ListItem
+} from 'material-ui'
 import styles from './styles'
-import { getBatches } from '../../network/warehouse'
-import { history } from '../../app'
+import { getBatches, addBatch } from '../../network/warehouse'
+// import { history } from '../../app'
 
 const headers = [
   '总量',
@@ -12,6 +29,68 @@ const headers = [
   '操作'
 ]
 
+class BatchDialog extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      price: 0.0,
+      count: 0,
+      source: ''
+    }
+  }
+
+  handleConfirm () {
+    this.props.onConfirm(this.state.count, this.state.price, this.state.source)
+  }
+  handleCancel () {
+    this.props.onCancel(this.state.count, this.state.price, this.state.source)
+  }
+
+  render () {
+    return (
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        aria-labelledby='confirmation-dialog-title'
+        open={this.props.open}>
+        <DialogTitle id='confirmation-dialog-title'>
+          新增批次
+        </DialogTitle>
+        <DialogContent>
+          <List>
+            <ListItem>
+              <Input className={this.props.classes.input} inputProps={{'aria-label': 'Description'}}
+                autoFocus
+                onChange={(e) => { this.setState({price: e.target.value}) }}
+                placeholder='进货价' />
+            </ListItem>
+            <ListItem>
+              <Input className={this.props.classes.input} inputProps={{'aria-label': 'Description'}}
+                onChange={(e) => { this.setState({count: e.target.value}) }}
+                placeholder='数量' />
+            </ListItem>
+            <ListItem>
+              <Input className={this.props.classes.input} inputProps={{'aria-label': 'Description'}}
+                onChange={(e) => { this.setState({source: e.target.value}) }}
+                placeholder='来源' />
+            </ListItem>
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleCancel.bind(this)} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={this.handleConfirm.bind(this)} color='primary'>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+}
+
+let BatchInputDialog = withStyles(styles)(BatchDialog)
+
 class ItemListView extends Component {
   constructor (props) {
     super(props)
@@ -19,7 +98,8 @@ class ItemListView extends Component {
       console.error('can not found item id.....')
     }
     this.state = {
-      data: []
+      data: [],
+      open: false
     }
   }
 
@@ -34,6 +114,30 @@ class ItemListView extends Component {
       })
     }).catch((err) => {
       console.error(`get batchs error:${err}`)
+    })
+  }
+
+  handleAddBatch (count, price, source) {
+    let itemId = this.props.location.state.id
+    console.log(`add batch itemId: ${itemId} price: ${price}, count: ${count}, source: ${source}`)
+    if (!price || !count) {
+      console.warn('price and count can not be blank!')
+      return
+    }
+    let s = source
+    if (!s) {
+      s = ''
+    }
+    addBatch(itemId, count, price, s).then((ret) => {
+      this.setState({open: false})
+      if (ret === 0) {
+        this.reloadData()
+      } else {
+        console.error(`add batch with item ${itemId} failed, ret : ${ret}`)
+      }
+    }).catch((err) => {
+      this.setState({open: false})
+      console.error(`add batch with item ${itemId} error:${err}`)
     })
   }
 
@@ -67,7 +171,19 @@ class ItemListView extends Component {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow key='bottom'>
+              <TableCell colSpan={5}>
+                <div className={this.props.classes.bottom}>
+                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { this.setState({ open: true }) }}>
+                      添加
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
+        <BatchInputDialog open={this.state.open} onConfirm={this.handleAddBatch.bind(this)} onCancel={() => { this.setState({open: false}) }} />
       </Paper>
     )
   }
