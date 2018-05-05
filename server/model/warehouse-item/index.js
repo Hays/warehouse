@@ -121,7 +121,7 @@ export async function addBatch (itemId, count, price, source) {
 }
 
 export async function getBatchs (itemId) {
-  let result = await BrandModel.find({itemId: itemId})
+  let result = await BatchModel.find({itemId: itemId})
   console.log(`list item's(${itemId}) batchs : ${result}`)
   return result
 }
