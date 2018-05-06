@@ -10,7 +10,8 @@ const {
   handleGetBatchs,
   handleDeleteCategory,
   handleDeleteBrand,
-  handleDeleteItem
+  handleDeleteItem,
+  handleDeleteBatch
 } = dataHandle
 
 export default function initRouterHandler (router) {
@@ -25,4 +26,5 @@ export default function initRouterHandler (router) {
   router.get('/items', handleGetAllItems)
   router.post('/batch/add', handleAddBatch)
   router.get('/item/:itemId/batchs', handleGetBatchs)
+  router.post('/batch/delete', handleDeleteBatch)
 }

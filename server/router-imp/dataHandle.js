@@ -9,7 +9,8 @@ import {
   addItem,
   deleteCategory,
   deleteBrand,
-  deleteItem
+  deleteItem,
+  deleteBatch
 } from '../model/warehouse-item'
 
 async function handleAddItem (ctx, next) {
@@ -285,6 +286,32 @@ async function handleGetBatchs (ctx, next) {
   ctx.body = JSON.stringify(resp)
 }
 
+async function handleDeleteBatch (ctx, next) {
+  let param = ctx.request.body
+  if (param.batchId) {
+    console.log(`will delete batch .... ${param.batchId}`)
+    try {
+      let ret = await deleteBatch(param.batchId)
+      console.info(`delete batch success, ${ret}`)
+      ctx.status = 200
+      let code = ret.ok ? 0 : -1
+      let resp = {
+        code: code,
+        data: {}
+      }
+      ctx.body = JSON.stringify(resp)
+    } catch (e) {
+      console.error(e)
+      ctx.status = 400
+      ctx.body = 'delete batch failed!'
+    }
+  } else {
+    console.warn('handle delete batch, param error: batch id is blank!')
+    ctx.status = 400
+    ctx.body = 'batch id can not be blank!'
+  }
+}
+
 export default {
   handleAddItem,
   handleAddBatch,
@@ -296,5 +323,6 @@ export default {
   handleGetBatchs,
   handleDeleteCategory,
   handleDeleteBrand,
-  handleDeleteItem
+  handleDeleteItem,
+  handleDeleteBatch
 }
