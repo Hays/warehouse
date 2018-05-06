@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
+import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button, TableFooter } from 'material-ui'
 import styles from './styles'
 import SimpleTextInputDialog from '../widgets/SimpleTextInputDialog'
-import { getCategorys, addCategory } from '../../network/warehouse'
+import { getCategorys, addCategory, deleteCategory } from '../../network/warehouse'
 
 class CategoryView extends Component {
   constructor (props) {
@@ -45,6 +45,20 @@ class CategoryView extends Component {
     })
   }
 
+  handleDeleteCategory (catId) {
+    deleteCategory(catId).then((ret) => {
+      this.setState({open: false})
+      if (ret === 0) {
+        this.reloadData()
+      } else {
+        console.error(`delete category ${catId} failed, ret : ${ret}`)
+      }
+    }).catch((err) => {
+      this.setState({open: false})
+      console.error(`delete category ${catId} error:${err}`)
+    })
+  }
+
   render () {
     return (
       <Paper className={this.props.classes.root}>
@@ -52,12 +66,7 @@ class CategoryView extends Component {
           <TableHead>
             <TableRow>
               <TableCell>
-                <div className={this.props.classes.header}>
-                  <div>类别名称</div>
-                  <Button variant='raised' color='primary' onClick={() => { this.setState({open: true}) }}>
-                      添加
-                  </Button>
-                </div>
+                类别名称
               </TableCell>
             </TableRow>
           </TableHead>
@@ -65,9 +74,25 @@ class CategoryView extends Component {
             {this.state.data.map(cat => (
               <TableRow key={cat.id}>
                 <TableCell>{cat.name}</TableCell>
+                <TableCell>
+                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { this.handleDeleteCategory(cat.id) }}>
+                    删除
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={2}>
+                <div className={this.props.classes.bottom}>
+                  <Button variant='raised' color='primary' onClick={() => { this.setState({open: true}) }}>
+                      添加
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
         <SimpleTextInputDialog title='添加类别' open={this.state.open} onConfirm={this.handleAddCategory.bind(this)} onCancel={() => { this.setState({open: false}) }} placeholder='Name' />
       </Paper>
