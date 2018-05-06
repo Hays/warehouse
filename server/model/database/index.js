@@ -5,7 +5,7 @@ const MONGODB_URL = 'mongodb://127.0.0.1:27017/warehouse'
 export let isDBConnected = false
 
 export function initDB () {
-  mongoose.connect(MONGODB_URL)
+  mongoose.connect(MONGODB_URL, { config: { autoIndex: false } })
   mongoose.connection.on('connected', () => {
     console.info(`connect mongdb ${MONGODB_URL} success.`)
     isDBConnected = true

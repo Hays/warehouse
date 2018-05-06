@@ -1,20 +1,28 @@
 import mongoose, { Schema } from '../database'
 
+const STATE = {
+  NORMAL: 0,
+  DELETE: -1
+}
+
 let ItemSchema = new Schema({
   name: String,
   brand: { type: Schema.Types.ObjectId, ref: 'Brand' },
   desc: String,
   updated: { type: Date, default: Date.now },
-  category: { type: Schema.Types.ObjectId, ref: 'Category' }
-})
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
+  state: { type: Number, default: STATE.NORMAL }
+}, { safe: true })
 
 let BrandSchema = new Schema({
-  name: String
-})
+  name: String,
+  state: { type: Number, default: STATE.NORMAL }
+}, { safe: true })
 
 let CategorySchema = new Schema({
-  name: String
-})
+  name: String,
+  state: { type: Number, default: STATE.NORMAL }
+}, { safe: true })
 
 let BatchSchema = new Schema({
   itemId: {type: Schema.Types.ObjectId, ref: 'Item'},
@@ -22,8 +30,9 @@ let BatchSchema = new Schema({
   stock: Number, // 剩余库存
   price: Number,
   source: String,
-  date: { type: Date, default: Date.now }
-})
+  date: { type: Date, default: Date.now },
+  state: { type: Number, default: STATE.NORMAL }
+}, { safe: true })
 
 let BrandModel = mongoose.model('Brand', BrandSchema)
 let CategoryModel = mongoose.model('Category', CategorySchema)
@@ -42,7 +51,7 @@ export async function addCategory (name) {
 }
 
 export async function getAllCategory () {
-  let ret = await CategoryModel.find()
+  let ret = await CategoryModel.find({state: STATE.NORMAL})
   console.log(`list all category : ${ret}`)
   return ret
 }
@@ -69,7 +78,7 @@ export async function deleteBrand (brandId) {
 }
 
 export async function getAllBrands () {
-  let ret = await BrandModel.find()
+  let ret = await BrandModel.find({state: STATE.NORMAL})
   console.info(`list all brands : ${ret}`)
   return ret
 }
@@ -94,16 +103,15 @@ export async function deleteItem (itemId) {
 }
 
 export async function getAllItems () {
-  let result = await ItemModel.find().populate('brand').populate('category').lean()
+  let result = await ItemModel.find({state: STATE.NORMAL}).populate('brand').populate('category').lean()
   // 先试一下用聚合，如果性能差再改为添加字段count作为缓存
-  let batch = await BrandModel.aggregate().group({_id: '$itemId', count: {'$sum': '$stock'}})
+  let batch = await BatchModel.aggregate().match({state: 0}).group({_id: '$itemId', count: {'$sum': '$stock'}})
   result = result.map((item) => {
-    let temp = batch.filter((b) => (b.itemId === item._id))
+    let temp = batch.filter((b) => (b._id.equals(item._id)))
     let count = temp.length > 0 ? temp[0].count : 0
     item.count = count
     return item
   })
-  console.log(result)
   return result
 }
 
@@ -121,7 +129,13 @@ export async function addBatch (itemId, count, price, source) {
 }
 
 export async function getBatchs (itemId) {
-  let result = await BatchModel.find({itemId: itemId})
-  console.log(`list item's(${itemId}) batchs : ${result}`)
+  let result = await BatchModel.find({itemId: itemId, state: STATE.NORMAL})
+  // console.log(`list item's(${itemId}) batchs : ${result}`)
   return result
+}
+
+export async function deleteBatch (batchId) {
+  let ret = await BatchModel.remove({_id: batchId})
+  console.log(`delete batch result : ${ret.ok}, updated: ${ret.n}`)
+  return ret
 }
