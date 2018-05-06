@@ -78,29 +78,33 @@ class App extends Component {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={createMuiTheme()}>
-          <AppBar title='Warehouse' position='static'>
-            <Toolbar>
-              <IconButton color='inherit' aria-label='Menu' onClick={(e) => { this.setState({target: e.currentTarget}) }}>
-                <MenuIcon />
-              </IconButton>
-              <Typography variant='title' color='inherit'>
+          <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <div style={{maxWidth: 1024}}>
+              <AppBar title='Warehouse' position='static'>
+                <Toolbar>
+                  <IconButton color='inherit' aria-label='Menu' onClick={(e) => { this.setState({target: e.currentTarget}) }}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant='title' color='inherit'>
                 Warehouse
-              </Typography>
-            </Toolbar>
-            {/* TODO: 这里后面可以更换为drawer */}
-            <MainMenu
-              anchorEl={this.state.target}
-              selected={this.state.selected}
-              handleClose={() => { this.setState({target: null}) }}
-              onMenuClick={this.handleMenuClick.bind(this)} />
-          </AppBar>
+                  </Typography>
+                </Toolbar>
+                {/* TODO: 这里后面可以更换为drawer */}
+                <MainMenu
+                  anchorEl={this.state.target}
+                  selected={this.state.selected}
+                  handleClose={() => { this.setState({target: null}) }}
+                  onMenuClick={this.handleMenuClick.bind(this)} />
+              </AppBar>
 
-          <Route exact path={options[0][1]} component={Home} />
-          <Route path={options[1][1]} component={Brand} />
-          <Route path={options[2][1]} component={Category} />
-          <Route path={options[3][1]} component={About} />
-          <Route path='/item-add' component={ItemUpdate} />
-          <Route path='/batchs' component={Batchs} />
+              <Route exact path={options[0][1]} component={Home} />
+              <Route path={options[1][1]} component={Brand} />
+              <Route path={options[2][1]} component={Category} />
+              <Route path={options[3][1]} component={About} />
+              <Route path='/item-add' component={ItemUpdate} />
+              <Route path='/batchs' component={Batchs} />
+            </div>
+          </div>
         </MuiThemeProvider>
       </Router>
     )

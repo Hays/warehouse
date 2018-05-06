@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
+import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button, TableFooter } from 'material-ui'
 import styles from './styles'
 import { getItems, deleteItem } from '../../network/warehouse'
 import { history } from '../../app'
@@ -9,7 +9,8 @@ const headers = [
   '品牌',
   '类别',
   '数量',
-  '更新日期'
+  '更新日期',
+  '操作'
 ]
 
 class ItemListView extends Component {
@@ -51,7 +52,7 @@ class ItemListView extends Component {
   render () {
     return (
       <Paper className={this.props.classes.root}>
-        <Table className={this.props.classes.table}>
+        <Table>
           <TableHead>
             <TableRow key='item-header'>
               {headers.map(text => {
@@ -61,11 +62,6 @@ class ItemListView extends Component {
                   </TableCell>
                 )
               })}
-              <TableCell>
-                <Button variant='raised' color='primary' onClick={() => { history.push('/item-add') }}>
-                  添加
-                </Button>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,6 +91,17 @@ class ItemListView extends Component {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={6}>
+                <div className={this.props.classes.bottom}>
+                  <Button variant='raised' color='primary' onClick={() => { history.push('/item-add') }}>
+                    添加
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </Paper>
     )
