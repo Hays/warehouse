@@ -7,10 +7,9 @@ export default (theme) => ({
   table: {
     minWidth: 300
   },
-  header: {
+  bottom: {
     display: 'flex',
-    'justify-content': 'space-between',
-    height: '100%',
-    'align-items': 'center'
+    'justify-content': 'flex-end',
+    height: '100%'
   }
 })
