@@ -57,7 +57,9 @@ export async function getAllCategory () {
 }
 
 export async function deleteCategory (categoryId) {
-  let ret = await CategoryModel.remove({_id: categoryId})
+  // TODO: 检查没有引用时直接从数据库删除
+  let ret = await CategoryModel.update({_id: categoryId}, { $set: { state: STATE.DELETE } })
+  // let ret = await CategoryModel.remove({_id: categoryId})
   console.log(`delete category result : ${ret.ok}, updated: ${ret.n}`)
   return ret.ok && ret.n > 0
 }
@@ -72,7 +74,9 @@ export async function addBrand (name) {
 }
 
 export async function deleteBrand (brandId) {
-  let ret = await BrandModel.remove({_id: brandId})
+  // TODO: 检查没有引用时直接从数据库删除
+  let ret = await BrandModel.update({_id: brandId}, { $set: { state: STATE.DELETE } })
+  // let ret = await BrandModel.remove({_id: brandId})
   console.log(`delete brand result : ${ret.ok}, updated: ${ret.n}`)
   return ret
 }
