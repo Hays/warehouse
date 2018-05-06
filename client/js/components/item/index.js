@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TableHead, TableCell, TableRow, TableBody, Paper, Table, withStyles, Button } from 'material-ui'
 import styles from './styles'
-import { getItems } from '../../network/warehouse'
+import { getItems, deleteItem } from '../../network/warehouse'
 import { history } from '../../app'
 
 const headers = [
@@ -34,6 +34,20 @@ class ItemListView extends Component {
     })
   }
 
+  handleDeleteItem (itemId) {
+    deleteItem(itemId).then((ret) => {
+      this.setState({open: false})
+      if (ret === 0) {
+        this.reloadData()
+      } else {
+        console.error(`delete item ${itemId} failed, ret : ${ret}`)
+      }
+    }).catch((err) => {
+      this.setState({open: false})
+      console.error(`delete item ${itemId} error:${err}`)
+    })
+  }
+
   render () {
     return (
       <Paper className={this.props.classes.root}>
@@ -63,8 +77,19 @@ class ItemListView extends Component {
                 <TableCell>{item.count}</TableCell>
                 <TableCell>{item.updated}</TableCell>
                 <TableCell>
-                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { history.push('/batchs', item) }}>
+                  <Button
+                    className={this.props.classes.button}
+                    variant='raised'
+                    color='primary'
+                    onClick={() => { history.push('/batchs', item) }}>
                     查看
+                  </Button>
+                  <Button
+                    className={this.props.classes.button}
+                    variant='raised'
+                    color='primary'
+                    onClick={() => { this.handleDeleteItem(item.id) }}>
+                    删除
                   </Button>
                 </TableCell>
               </TableRow>
