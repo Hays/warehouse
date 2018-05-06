@@ -18,7 +18,7 @@ import {
   ListItem
 } from 'material-ui'
 import styles from './styles'
-import { getBatches, addBatch } from '../../network/warehouse'
+import { getBatches, addBatch, deleteBatch } from '../../network/warehouse'
 // import { history } from '../../app'
 
 const headers = [
@@ -141,6 +141,20 @@ class ItemListView extends Component {
     })
   }
 
+  handleDeleteBatch (batchId) {
+    deleteBatch(batchId).then((ret) => {
+      this.setState({open: false})
+      if (ret === 0) {
+        this.reloadData()
+      } else {
+        console.error(`delete batch with item ${batchId} failed, ret : ${ret}`)
+      }
+    }).catch((err) => {
+      this.setState({open: false})
+      console.error(`delete batch with item ${batchId} error:${err}`)
+    })
+  }
+
   render () {
     return (
       <Paper className={this.props.classes.root}>
@@ -164,7 +178,7 @@ class ItemListView extends Component {
                 <TableCell>{batch.source}</TableCell>
                 <TableCell>{batch.created}</TableCell>
                 <TableCell>
-                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { console.log('test by Hays ... ') }}>
+                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { this.handleDeleteBatch(batch.id) }}>
                     删除
                   </Button>
                 </TableCell>
