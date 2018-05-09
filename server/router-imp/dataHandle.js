@@ -10,7 +10,8 @@ import {
   deleteCategory,
   deleteBrand,
   deleteItem,
-  deleteBatch
+  deleteBatch,
+  updateBatchStock
 } from '../model/warehouse-item'
 
 async function handleAddItem (ctx, next) {
@@ -312,6 +313,33 @@ async function handleDeleteBatch (ctx, next) {
   }
 }
 
+async function handleUpdateBatch (ctx, next) {
+  let batchId = ctx.params.batchId
+  let stock = ctx.request.body.stock
+  if (stock) {
+    console.log(`will update batch stock .... ${stock}`)
+    try {
+      let ret = await updateBatchStock(batchId, stock)
+      console.info(`update batch stock success, ${ret}`)
+      ctx.status = 200
+      let code = ret.ok ? 0 : -1
+      let resp = {
+        code: code,
+        data: {}
+      }
+      ctx.body = JSON.stringify(resp)
+    } catch (e) {
+      console.error(e)
+      ctx.status = 400
+      ctx.body = 'update batch stock failed!'
+    }
+  } else {
+    console.warn('handle update batch, param error: stock is blank!')
+    ctx.status = 400
+    ctx.body = 'param stock can not be blank!'
+  }
+}
+
 export default {
   handleAddItem,
   handleAddBatch,
@@ -324,5 +352,6 @@ export default {
   handleDeleteCategory,
   handleDeleteBrand,
   handleDeleteItem,
-  handleDeleteBatch
+  handleDeleteBatch,
+  handleUpdateBatch
 }
