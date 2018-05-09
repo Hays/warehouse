@@ -18,7 +18,8 @@ import {
   ListItem
 } from 'material-ui'
 import styles from './styles'
-import { getBatches, addBatch, deleteBatch } from '../../network/warehouse'
+import { getBatches, addBatch, deleteBatch, updateBatch } from '../../network/warehouse'
+import SimpleTextInputDialog from '../widgets/SimpleTextInputDialog'
 // import { history } from '../../app'
 
 const headers = [
@@ -99,7 +100,9 @@ class ItemListView extends Component {
     }
     this.state = {
       data: [],
-      open: false
+      open: false,
+      update: false,
+      selectedBatch: null
     }
   }
 
@@ -155,6 +158,26 @@ class ItemListView extends Component {
     })
   }
 
+  handleUpdateBatch (newStock) {
+    if (!newStock) {
+      console.warn('stock can not be null')
+      return
+    }
+    let batchId = this.state.selectedBatch
+    updateBatch(batchId, newStock).then((ret) => {
+      this.setState({update: false})
+      if (ret === 0) {
+        this.reloadData()
+      } else {
+        console.error(`update batch(${batchId}) stock stock(${newStock}) failed, ret : ${ret}`)
+      }
+    }).catch((err) => {
+      this.setState({update: false})
+      console.error(`update batch(${batchId}) stock stock(${newStock}) error:${err}`)
+    })
+    this.setState({selectedBatch: null})
+  }
+
   render () {
     return (
       <Paper className={this.props.classes.root}>
@@ -178,6 +201,9 @@ class ItemListView extends Component {
                 <TableCell>{batch.source}</TableCell>
                 <TableCell>{batch.created}</TableCell>
                 <TableCell>
+                  <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { this.setState({ update: true, selectedBatch: batch.id }) }}>
+                    更新
+                  </Button>
                   <Button className={this.props.classes.button} variant='raised' color='primary' onClick={() => { this.handleDeleteBatch(batch.id) }}>
                     删除
                   </Button>
@@ -198,6 +224,7 @@ class ItemListView extends Component {
           </TableFooter>
         </Table>
         <BatchInputDialog open={this.state.open} onConfirm={this.handleAddBatch.bind(this)} onCancel={() => { this.setState({open: false}) }} />
+        <SimpleTextInputDialog title='更新库存' open={this.state.update} onConfirm={this.handleUpdateBatch.bind(this)} onCancel={() => { this.setState({update: false}) }} placeholder='Stock' />
       </Paper>
     )
   }

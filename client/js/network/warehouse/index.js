@@ -11,7 +11,8 @@ import {
   DELETE_CATEGORY_API,
   DELETE_BRAND_API,
   DELETE_ITEM_API,
-  DELETE_BATCH_API
+  DELETE_BATCH_API,
+  updateBatchUrl
 } from './constants'
 
 export function getCategorys () {
@@ -114,6 +115,16 @@ export function addBatch (itemId, count, price, source) {
 
 export function deleteBatch (batchId) {
   return axios.post(DELETE_BATCH_API, {batchId: batchId}).then((response) => {
+    if (response.status === 200) {
+      return 0
+    } else {
+      return response.status
+    }
+  })
+}
+
+export function updateBatch (batchId, newStock) {
+  return axios.post(updateBatchUrl(batchId), {stock: newStock}).then(response => {
     if (response.status === 200) {
       return 0
     } else {

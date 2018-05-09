@@ -146,6 +146,6 @@ export async function deleteBatch (batchId) {
 
 export async function updateBatchStock (batchId, curStock) {
   let ret = await BatchModel.update({_id: batchId}, { $set: { stock: curStock} })
-  console.debug(`update batch(${batchId}) stock: ${curStock}`)
+  console.debug(`update batch(${batchId}) stock: ${curStock} result: ${ret.ok}, updated: ${ret.n}`)
   return ret
 }

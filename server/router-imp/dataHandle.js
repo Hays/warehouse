@@ -320,7 +320,7 @@ async function handleUpdateBatch (ctx, next) {
     console.log(`will update batch stock .... ${stock}`)
     try {
       let ret = await updateBatchStock(batchId, stock)
-      console.info(`update batch stock success, ${ret}`)
+      console.info(`update batch stock success, ${ret.ok}`)
       ctx.status = 200
       let code = ret.ok ? 0 : -1
       let resp = {

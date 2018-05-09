@@ -18,3 +18,7 @@ function combineAPI (api) {
 export function batchsUrl (itemId) {
   return combineAPI(`/item/${itemId}/batchs`)
 }
+
+export function updateBatchUrl (batchId) {
+  return combineAPI(`/batch/${batchId}/update`)
+}
